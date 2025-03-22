@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tracking Logs</title>
+</head>
+<body>
+    <h2>Visitor Logs</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Location</th>
+                <th>Browser</th>
+                <th>OS</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="logTable"></tbody>
+    </table>
+
+    <script>
+        async function loadLogs() {
+            const res = await fetch("https://yourapp.onrender.com/logs?key=mysecurekey123");
+            const data = await res.json();
+            let rows = "";
+            data.forEach(v => {
+                rows += `<tr>
+                    <td>${v.ip}</td>
+                    <td>${v.location?.city || "Unknown"}, ${v.location?.country || "Unknown"}</td>
+                    <td>${v.browser}</td>
+                    <td>${v.os}</td>
+                    <td>${new Date(v.timestamp).toLocaleString()}</td>
+                </tr>`;
+            });
+            document.getElementById("logTable").innerHTML = rows;
+        }
+        loadLogs();
+    </script>
+</body>
+</html>
