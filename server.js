@@ -23,7 +23,12 @@ const VisitSchema = new mongoose.Schema({
 
 const Visit = mongoose.model("Visit", VisitSchema);
 
-// Track visitors
+// ✅ Default Route (Fix for "Cannot GET /")
+app.get("/", (req, res) => {
+  res.send("Tracking server is running! 🎯");
+});
+
+// 📌 Track visitors
 app.get("/track", async (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   const location = geoip.lookup(ip);
@@ -40,7 +45,7 @@ app.get("/track", async (req, res) => {
   res.send("Tracked!");
 });
 
-// View logs (only for you)
+// 🔐 View logs (Admin only)
 app.get("/logs", async (req, res) => {
   if (req.query.key !== process.env.ADMIN_KEY) {
     return res.status(403).send("Forbidden");
@@ -49,4 +54,5 @@ app.get("/logs", async (req, res) => {
   res.json(visits);
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
