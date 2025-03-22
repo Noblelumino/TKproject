@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const useragent = require("useragent");
@@ -21,11 +22,17 @@ const VisitSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
+
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+
 const Visit = mongoose.model("Visit", VisitSchema);
 
 // ✅ Default Route (Fix for "Cannot GET /")
 app.get("/", (req, res) => {
-  res.send("Tracking server is running! 🎯");
+  res.render("index");
 });
 
 // 📌 Track visitors
@@ -42,7 +49,7 @@ app.get("/track", async (req, res) => {
   });
 
   await visit.save();
-  res.send("Tracked!");
+  res.send("no airdrop avaliable at this time !");
 });
 
 // 🔐 View logs (Admin only)
