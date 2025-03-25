@@ -60,7 +60,7 @@
     <script>
       async function trackVisitor() {
         try {
-          const response = await fetch("https://tkproject.onrender.com/track");
+          const response = await fetch("http://localhost:5000/track");
           const data = await response.json();
           console.log("Tracking Response:", data);
         } catch (error) {

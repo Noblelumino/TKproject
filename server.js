@@ -74,6 +74,7 @@ app.get("/admin", (req, res) => {
 
 // 📌 Track visitors
 app.get("/track", async (req, res) => {
+  console.log("Tracking visitor...");
   try {
     // Step 1: Get real or fallback IP
     const rawIp =
